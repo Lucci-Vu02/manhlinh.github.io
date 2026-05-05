@@ -16,71 +16,88 @@
       padding: 40px;
       max-width: 900px;
       margin: auto;
+      white-space: pre-line;
     }
 
-    .line {
-      margin: 10px 0;
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      background: #00ff9f;
+      animation: blink 1s infinite;
     }
 
-    .prompt {
-      color: #00ff9f;
-    }
-
-    a {
-      color: #00ff9f;
-      text-decoration: underline;
+    @keyframes blink {
+      0%, 50%, 100% { opacity: 1; }
+      25%, 75% { opacity: 0; }
     }
   </style>
 </head>
 <body>
 
-<div class="terminal">
+<div class="terminal" id="terminal"></div>
 
-  <div class="line"><span class="prompt">$</span> about</div>
-  <div class="line">NGUYEN | MANH | LINH</div>
-  <div class="line">Year of birth: 1997</div>
-  <div class="line">Education : Banking Academy</div>
-  <div class="line">Specialized: Management Information Systems</div>
-  <div class="line">Current role:</div>
-  <div class="line">- Business Analyst at Techcombank Vietnam</div>
+<script>
+const text = `
+$ about
 
-  <br>
+NGUYEN | MANH | LINH
 
-  <div class="line"><span class="prompt">$</span> experience</div>
-  <div class="line">- Business Analyst / Mar 2023 - present</div>
-  <div class="line">Techcombank Vietnam</div>
-  <div class="line">- Business Analyst / Mar 2021 - Feb 2023</div>
-  <div class="line">VNPAY</div>
-  <div class="line">- Business Analyst / Mar 2019 - Dec 2020</div>
-  <div class="line">ETC Technology Systems JSC</div>
+Year of birth: 1997
+Education : Banking Academy
+Specialized: Management Information Systems
 
-  <br>
+Current role:
+- Business Analyst at Techcombank Vietnam
 
-  <div class="line"><span class="prompt">$</span> skills</div>
-  <div class="line">- Information Architecture</div>
-  <div class="line">- Testing</div>
-  <div class="line">- Systems Integration</div>
-  <div class="line">- SQL</div>
-  <div class="line">- User Requirements</div>
-  <div class="line">- Microsoft Power BI</div>
-  <div class="line">- UML</div>
-  <div class="line">- UI/UX</div>
-  <div class="line">etc...</div>
+$ experience
 
-  <br>
+- Business Analyst / Mar 2023 - present
+Techcombank Vietnam
 
-  <div class="line"><span class="prompt">$</span> certs</div>
-  <div class="line">- TOEIC 900+ - IIG Vietnam</div>
-  <div class="line">- MOS - IIG Vietnam</div>
-  <div class="line">- Analyzing and Visualizing Data - Microsoft Power BI</div>
+- Business Analyst / Mar 2021 - Feb 2023
+VNPAY
 
-  <br>
+- Business Analyst / Mar 2019 - Dec 2020
+ETC Technology Systems JSC
 
-  <div class="line"><span class="prompt">$</span> contact</div>
-  <div class="line">Phone : 033 3806394</div>
-  <div class="line">Facebook: <a href="https://facebook.com/manhlinh.nguyen.1803">link</a></div>
+$ skills
 
-</div>
+- Information Architecture
+- Testing
+- Systems Integration
+- SQL
+- User Requirements
+- Microsoft Power BI
+- UML
+- UI/UX
+etc...
+
+$ certs
+
+- TOEIC 900+ - IIG Vietnam
+- MOS - IIG Vietnam
+- Analyzing and Visualizing Data - Microsoft Power BI
+
+$ contact
+
+Phone : 033 3806394
+Facebook: https://facebook.com/manhlinh.nguyen.1803
+`;
+
+let i = 0;
+const speed = 20;
+const terminal = document.getElementById("terminal");
+
+function type() {
+  if (i < text.length) {
+    terminal.innerHTML += text.charAt(i);
+    i++;
+    setTimeout(type, speed);
+  }
+}
+
+type();
+</script>
 
 </body>
 </html>
