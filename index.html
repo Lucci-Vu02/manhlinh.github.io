@@ -1,68 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: monospace;
-      background: black;
-      color: #00ff9f;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terminal Portfolio</title>
+<style>
+body {
+  margin: 0;
+  font-family: 'Fira Code', monospace;
+  background: black;
+  color: #00ff9f;
+}
 
-    .terminal {
-      padding: 40px;
-      max-width: 900px;
-      margin: auto;
-      white-space: pre-line;
-    }
+.terminal {
+  padding: 40px;
+  max-width: 900px;
+  margin: auto;
+  white-space: pre-line;
+}
 
-    .cursor {
-      display: inline-block;
-      width: 10px;
-      background: #00ff9f;
-      animation: blink 1s infinite;
-    }
+input {
+  background: black;
+  border: none;
+  outline: none;
+  color: #00ff9f;
+  font-family: 'Fira Code', monospace;
+  font-size: 16px;
+  width: 80%;
+}
 
-    @keyframes blink {
-      0%, 50%, 100% { opacity: 1; }
-      25%, 75% { opacity: 0; }
-    }
-  </style>
+.line { margin: 5px 0; }
+</style>
 </head>
 <body>
 
-<div class="terminal" id="terminal"></div>
+<div class="terminal" id="terminal">
+</div>
 
 <script>
-const text = `
-$ about
+const terminal = document.getElementById("terminal");
 
-NGUYEN | MANH | LINH
+const intro = [
+"Welcome to NGUYEN MANH LINH Portfolio",
+"Type 'about', 'experience', 'skills', 'certs', 'contact'",
+""
+];
 
+const data = {
+  about: `NGUYEN | MANH | LINH
 Year of birth: 1997
 Education : Banking Academy
 Specialized: Management Information Systems
 
 Current role:
-- Business Analyst at Techcombank Vietnam
+- Business Analyst at Techcombank Vietnam`,
 
-$ experience
-
-- Business Analyst / Mar 2023 - present
+  experience: `- Business Analyst / Mar 2023 - present
 Techcombank Vietnam
 
 - Business Analyst / Mar 2021 - Feb 2023
 VNPAY
 
 - Business Analyst / Mar 2019 - Dec 2020
-ETC Technology Systems JSC
+ETC Technology Systems JSC`,
 
-$ skills
-
-- Information Architecture
+  skills: `- Information Architecture
 - Testing
 - Systems Integration
 - SQL
@@ -70,33 +72,68 @@ $ skills
 - Microsoft Power BI
 - UML
 - UI/UX
-etc...
+etc...`,
 
-$ certs
-
-- TOEIC 900+ - IIG Vietnam
+  certs: `- TOEIC 900+ - IIG Vietnam
 - MOS - IIG Vietnam
-- Analyzing and Visualizing Data - Microsoft Power BI
+- Analyzing and Visualizing Data - Microsoft Power BI`,
 
-$ contact
+  contact: `Phone : 033 3806394
+Facebook: https://facebook.com/manhlinh.nguyen.1803`
+};
 
-Phone : 033 3806394
-Facebook: https://facebook.com/manhlinh.nguyen.1803
-`;
-
-let i = 0;
-const speed = 20;
-const terminal = document.getElementById("terminal");
-
-function type() {
-  if (i < text.length) {
-    terminal.innerHTML += text.charAt(i);
-    i++;
-    setTimeout(type, speed);
+function printLines(lines, callback) {
+  let i = 0;
+  function next() {
+    if (i < lines.length) {
+      const div = document.createElement("div");
+      div.className = "line";
+      div.textContent = lines[i];
+      terminal.appendChild(div);
+      i++;
+      setTimeout(next, 300);
+    } else {
+      callback();
+    }
   }
+  next();
 }
 
-type();
+function createInput() {
+  const wrapper = document.createElement("div");
+  wrapper.className = "line";
+  wrapper.innerHTML = "$ ";
+
+  const input = document.createElement("input");
+  wrapper.appendChild(input);
+  terminal.appendChild(wrapper);
+
+  input.focus();
+
+  input.addEventListener("keydown", function(e) {
+    if (e.key === "Enter") {
+      const cmd = input.value.trim();
+      wrapper.innerHTML = "$ " + cmd;
+
+      if (data[cmd]) {
+        const output = document.createElement("div");
+        output.className = "line";
+        output.textContent = data[cmd];
+        terminal.appendChild(output);
+      } else {
+        const err = document.createElement("div");
+        err.className = "line";
+        err.textContent = "Command not found";
+        terminal.appendChild(err);
+      }
+
+      createInput();
+      window.scrollTo(0, document.body.scrollHeight);
+    }
+  });
+}
+
+printLines(intro, createInput);
 </script>
 
 </body>
